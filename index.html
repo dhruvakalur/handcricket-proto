@@ -1,0 +1,24 @@
+<script>
+    const socket = new WebSocket('ws://localhost:9090');
+    var data = new Object();
+    data.data = "croom";
+    var stga;
+    socket.onopen = e => {
+        socket.send(JSON.stringify(data))
+    }
+        
+    
+    socket.onmessage = msg => {
+        var recced = JSON.parse(msg.data);
+        if(recced.message === "room already exists"){
+            console.log("Room already exists")
+            location.reload();
+        }
+        if(recced.message === "room created successfully"){
+            console.log("Room created successfully")
+            location = "http://localhost:9999/?q=" + recced.room
+        }
+        console.log(recced.message);
+        
+    }
+</script>
